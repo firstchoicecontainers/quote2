@@ -2,88 +2,121 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>First Choice Containers</title>
 
 <style>
-html,body{
+*{
     margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
     height:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
     background:#ffffff;
     font-family:Arial,Helvetica,sans-serif;
 }
 
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
 .container{
     text-align:center;
+    padding:20px;
+    width:100%;
 }
 
-.logo{
-    font-size:34px;
-    font-weight:bold;
-    margin-bottom:20px;
-}
-
-.first{
-    color:#0078D4;
-}
-
-.containers{
-    color:#E53935;
+.company-logo{
+    width:360px;
+    max-width:90%;
+    height:auto;
+    display:block;
+    margin:0 auto 30px;
+    user-select:none;
+    -webkit-user-drag:none;
 }
 
 .spinner{
-    width:48px;
-    height:48px;
-    margin:20px auto;
-    border:4px solid #ddd;
-    border-top:4px solid #0078D4;
+    width:54px;
+    height:54px;
+    margin:0 auto 20px;
+    border:5px solid #e5e5e5;
+    border-top:5px solid #2F62D8;
     border-radius:50%;
     animation:spin .8s linear infinite;
 }
 
-.text{
+.loading-text{
+    font-size:18px;
     color:#555;
-    font-size:16px;
+    font-weight:600;
 }
 
 @keyframes spin{
-    to{
+    100%{
         transform:rotate(360deg);
     }
 }
+
+@media (max-width:600px){
+
+.company-logo{
+    width:260px;
+}
+
+.spinner{
+    width:46px;
+    height:46px;
+}
+
+.loading-text{
+    font-size:16px;
+}
+
+}
 </style>
+
+<script>
+// Redirect as soon as the page has painted
+window.addEventListener("pageshow", () => {
+
+    const APPS_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbxwbVlUeJxYeM0ZJi8fD-CseissJBsEtOquUnWm3KzolPx80lHJrU7Eb7LvasWQeJWI/exec";
+
+    requestAnimationFrame(() => {
+        window.location.replace(
+            APPS_SCRIPT_URL + window.location.search
+        );
+    });
+
+});
+</script>
+
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="logo">
-<span class="first">First Choice</span>
-<span class="containers">Containers</span>
+    <!-- Save your uploaded logo as logo.png -->
+    <img
+        src="logo.png"
+        alt="First Choice Containers"
+        class="company-logo">
+
+    <div class="spinner"></div>
+
+    <div class="loading-text">
+        Opening Application...
+    </div>
+
 </div>
-
-<div class="spinner"></div>
-
-<div class="text">
-Opening application...
-</div>
-
-</div>
-
-<script>
-const APPS_SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbxwbVlUeJxYeM0ZJi8fD-CseissJBsEtOquUnWm3KzolPx80lHJrU7Eb7LvasWQeJWI/exec";
-
-// Preserve all AppSheet query parameters
-requestAnimationFrame(() => {
-    window.location.replace(APPS_SCRIPT_URL + window.location.search);
-});
-</script>
 
 </body>
 </html>
