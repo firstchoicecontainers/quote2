@@ -24,6 +24,7 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
+    overflow:hidden;
 }
 
 .container{
@@ -38,15 +39,16 @@ body{
     height:auto;
     display:block;
     margin:0 auto 30px;
+    pointer-events:none;
     user-select:none;
     -webkit-user-drag:none;
 }
 
 .spinner{
-    width:54px;
-    height:54px;
+    width:56px;
+    height:56px;
     margin:0 auto 20px;
-    border:5px solid #e5e5e5;
+    border:5px solid #e6e6e6;
     border-top:5px solid #2F62D8;
     border-radius:50%;
     animation:spin .8s linear infinite;
@@ -58,8 +60,14 @@ body{
     font-weight:600;
 }
 
+.loading-subtext{
+    margin-top:8px;
+    color:#888;
+    font-size:14px;
+}
+
 @keyframes spin{
-    100%{
+    to{
         transform:rotate(360deg);
     }
 }
@@ -79,24 +87,12 @@ body{
     font-size:16px;
 }
 
+.loading-subtext{
+    font-size:13px;
+}
+
 }
 </style>
-
-<script>
-// Redirect as soon as the page has painted
-window.addEventListener("pageshow", () => {
-
-    const APPS_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbxwbVlUeJxYeM0ZJi8fD-CseissJBsEtOquUnWm3KzolPx80lHJrU7Eb7LvasWQeJWI/exec";
-
-    requestAnimationFrame(() => {
-        window.location.replace(
-            APPS_SCRIPT_URL + window.location.search
-        );
-    });
-
-});
-</script>
 
 </head>
 
@@ -104,7 +100,6 @@ window.addEventListener("pageshow", () => {
 
 <div class="container">
 
-    <!-- Save your uploaded logo as logo.png -->
     <img
         src="logo.png"
         alt="First Choice Containers"
@@ -116,7 +111,28 @@ window.addEventListener("pageshow", () => {
         Opening Application...
     </div>
 
+    <div class="loading-subtext">
+        Please wait while we connect securely.
+    </div>
+
 </div>
+
+<script>
+
+const APPS_SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbxwbVlUeJxYeM0ZJi8fD-CseissJBsEtOquUnWm3KzolPx80lHJrU7Eb7LvasWQeJWI/exec";
+
+// Preserve all parameters coming from AppSheet
+const destination = APPS_SCRIPT_URL + window.location.search;
+
+// Let the browser paint the logo first, then redirect immediately
+requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+        window.location.replace(destination);
+    });
+});
+
+</script>
 
 </body>
 </html>
